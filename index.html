@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatchChat</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #6a11cb, #2575fc); height: 100vh; display: flex; align-items: center; justify-content: center; color: white; }
+        .card { background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border-radius: 24px; padding: 40px; width: 380px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); text-align: center; }
+        h1 { font-size: 2.8rem; margin-bottom: 10px; }
+        .gender { display: flex; gap: 20px; justify-content: center; margin: 40px 0; }
+        .gender div { padding: 30px; background: rgba(255,255,255,0.2); border-radius: 20px; width: 110px; cursor: pointer; transition: all 0.3s; }
+        .gender div:hover, .gender div.active { background: white; color: #6a11cb; transform: scale(1.1); }
+        button { background: white; color: #6a11cb; border: none; padding: 16px 40px; font-size: 1.2rem; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 20px; }
+        .chat { display: none; flex-direction: column; height: 100vh; }
+        .chat-header { padding: 20px; background: rgba(0,0,0,0.2); }
+        .messages { flex: 1; padding: 20px; overflow-y: auto; }
+        .message { margin: 10px 0; padding: 12px 18px; border-radius: 20px; max-width: 80%; }
+        .sent { background: #fff; color: #333; align-self: flex-end; }
+        .received { background: rgba(255,255,255,0.3); align-self: flex-start; }
+    </style>
+</head>
+<body>
+    <div id="waiting" class="card">
+        <h1>MatchChat</h1>
+        <p style="margin-bottom: 30px;">Znajdź kogoś na teraz</p>
+        
+        <div class="gender">
+            <div onclick="select('male')" id="male">♂️ Mężczyzna</div>
+            <div onclick="select('female')" id="female">♀️ Kobieta</div>
+        </div>
+        
+        <button onclick="start()">Szukaj Partnera</button>
+    </div>
+
+    <div id="chat" class="chat" style="display: none;">
+        <div class="chat-header">
+            <h2>Połączono z Anną (24)</h2>
+        </div>
+        <div class="messages" id="messages"></div>
+        <input type="text" id="input" placeholder="Napisz wiadomość..." style="width: 100%; padding: 15px; border: none; border-radius: 0 0 24px 24px;" onkeypress="if(event.key === 'Enter') send()">
+    </div>
+
+    <script>
+        function select(g) {
+            document.querySelectorAll('.gender div').forEach(d => d.classList.remove('active'));
+            document.getElementById(g).classList.add('active');
+        }
+        function start() {
+            document.getElementById('waiting').style.display = 'none';
+            document.getElementById('chat').style.display = 'flex';
+            addMsg("Cześć! Jak się masz? 😊", "received");
+        }
+        function send() {
+            const input = document.getElementById('input');
+            if (input.value) {
+                addMsg(input.value, "sent");
+                input.value = '';
+            }
+        }
+        function addMsg(text, type) {
+            const div = document.createElement('div');
+            div.className = `message ${type}`;
+            div.textContent = text;
+            document.getElementById('messages').appendChild(div);
+        }
+    </script>
+</body>
+</html>
