@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatchChat - Randki Online</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Waiting Room -->
+        <div id="waiting-room" class="screen active">
+            <div class="header">
+                <h1>MatchChat ❤️</h1>
+                <p>Znajdź kogoś na teraz</p>
+            </div>
+            
+            <div class="gender-selection">
+                <h2>Wybierz swoją płeć</h2>
+                <div class="gender-options">
+                    <div onclick="selectGender('male')" class="gender-option" id="male">
+                        <i class="fas fa-mars"></i>
+                        <span>Mężczyzna</span>
+                    </div>
+                    <div onclick="selectGender('female')" class="gender-option" id="female">
+                        <i class="fas fa-venus"></i>
+                        <span>Kobieta</span>
+                    </div>
+                    <div onclick="selectGender('other')" class="gender-option" id="other">
+                        <i class="fas fa-genderless"></i>
+                        <span>Inna</span>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="joinWaitingRoom()" id="start-btn" class="start-btn" disabled>
+                <span id="start-text">DOŁĄCZ DO POCZEKALNI</span>
+            </button>
+            
+            <div class="stats">
+                <p>Obecnie czeka: <span id="online-count">0</span> osób</p>
+            </div>
+        </div>
+
+        <!-- Matching / Chat Screen -->
+        <div id="chat-screen" class="screen">
+            <div class="chat-header">
+                <div class="partner-info">
+                    <div class="avatar" id="partner-avatar">👤</div>
+                    <div>
+                        <h3 id="partner-name">Łączenie...</h3>
+                        <p class="status">🟢 Online</p>
+                    </div>
+                </div>
+                <button onclick="leaveChat()" class="end-chat-btn">Wyjdź</button>
+            </div>
+            
+            <div id="chat-messages" class="chat-messages"></div>
+            
+            <div class="chat-input-area">
+                <div class="emoji-picker" id="emoji-picker"></div>
+                <div class="input-container">
+                    <button onclick="toggleEmojiPicker()" class="emoji-btn">😀</button>
+                    <input type="text" id="message-input" placeholder="Napisz wiadomość..." onkeypress="if(event.key === 'Enter') sendMessage()">
+                    <button onclick="sendMessage()" class="send-btn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
